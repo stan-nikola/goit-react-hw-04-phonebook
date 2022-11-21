@@ -112,8 +112,8 @@ export const CloseModalBtn = styled.button`
 `;
 export const ErrorIcon = styled(FiAlertTriangle)`
   position: absolute;
-  top: -9px;
-  left: -9px;
+  top: -11px;
+  left: -11px;
 
   width: 20px;
   height: 20px;

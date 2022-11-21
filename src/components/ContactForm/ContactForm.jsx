@@ -28,11 +28,11 @@ const schema = yup.object({
     .min(4, 'Name must be at least 4 letters long')
     .max(16, 'Name must be not longer than 16 letters')
     .required(
-      "Please type name. For example Adrian, Jacob Mercer, Charles de Batz, Castelmore d'Artagnan"
+      "Please enter name. For example Adrian, Jacob Mercer, Charles de Batz, Castelmore d'Artagnan"
     ),
   number: yup
     .string()
-    .required('Please type phone number')
+    .required('Please enter phone number')
     .matches(phoneRegExp, 'Phone number is not valid'),
 });
 
