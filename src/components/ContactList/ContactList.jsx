@@ -5,12 +5,15 @@ import { Box } from './../Box/Box';
 export const ContactList = ({ contacts, onDeleteContact }) => {
   return (
     <Box
+      display="flex"
+      flexWrap="wrap"
+      justifyContent="center"
+      gridGap={15}
       as="ul"
       bg="third"
       borderRadius="normal"
       boxShadow="items"
       p={2}
-      minWidth={296}
     >
       {contacts.map(({ id, name, number }) => {
         return (

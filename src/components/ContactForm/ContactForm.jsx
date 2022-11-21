@@ -1,61 +1,112 @@
-import { Component } from 'react';
-
 import PropTypes from 'prop-types';
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
+import { Formik, ErrorMessage } from 'formik';
+import { MdOutlineContactPhone } from 'react-icons/md';
+import { mask, phoneRegExp } from 'constants/phoneValidate';
+import * as yup from 'yup';
+import { toast } from 'react-toastify';
+import { Notification } from 'components/Notifications/Notifications';
+import { toastOptions } from 'settings/toastOptions';
+import { FiX } from 'react-icons/fi';
 
-export class ContactForm extends Component {
-  state = { name: '', number: '' };
+import 'react-toastify/dist/ReactToastify.css';
+import {
+  PbForm,
+  ModalTitle,
+  Label,
+  LabelName,
+  InputField,
+  ErrorMessageField,
+  SubmitBtn,
+  InputMaskField,
+  ErrorIcon,
+  CloseModalBtn,
+} from './ContactForm.styled';
 
-  handleChange = e => {
-    const { name, value } = e.currentTarget;
-    this.setState({ [name]: value });
-  };
-  handleSubmit = e => {
-    const { name, number } = this.state;
-    e.preventDefault();
-    const nameArr = this.props.contactsArr.map(contact => contact.name);
-    if (nameArr.includes(name)) {
-      return alert('1111111');
-    }
-    this.props.onSubmit(name, number);
+const schema = yup.object({
+  name: yup
+    .string()
+    .min(4, 'Name must be at least 4 letters long')
+    .max(16, 'Name must be not longer than 16 letters')
+    .required(
+      "Please type name. For example Adrian, Jacob Mercer, Charles de Batz, Castelmore d'Artagnan"
+    ),
+  number: yup
+    .string()
+    .required('Please type phone number')
+    .matches(phoneRegExp, 'Phone number is not valid'),
+});
 
-    this.setState({ name: '', number: '' });
-  };
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Name
-          <input
-            type="text"
-            name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-            value={this.state.name}
-            onChange={this.handleChange}
-          />
-        </label>
-        <label>
-          Number
-          <PhoneInput
-            inputProps={{
-              name: 'number',
-              required: true,
-              autoFocus: true,
-            }}
-            type="tel"
-            country={'ua'}
-            value={this.state.number}
-            onChange={number => this.setState({ number })}
-          />
-        </label>
-        <button type="submit">Add contact</button>
-      </form>
+const initialValues = { name: '', number: '' };
+
+export const ContactForm = ({ onSubmit, contactsArr, onClose }) => {
+  const handleSubmit = ({ name, number }, { resetForm }) => {
+    const nameArr = contactsArr.map(contact =>
+      contact.name.toLocaleLowerCase()
     );
-  }
-}
+    if (nameArr.includes(name.toLocaleLowerCase())) {
+      return toast.warn(`${name} is already in contacts.`, toastOptions);
+    }
+    onSubmit(name, number);
+    resetForm();
+  };
+  return (
+    <>
+      <CloseModalBtn type="button" onClick={onClose}>
+        <FiX />
+      </CloseModalBtn>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={schema}
+      >
+        <PbForm>
+          <ModalTitle>Enter name and phone number</ModalTitle>
+          <Label>
+            <LabelName>Name</LabelName>
+            <InputField type="text" name="name" placeholder="Bruce Lee" />
+            <ErrorMessage name="name" component="div">
+              {msg => (
+                <ErrorMessageField>
+                  {<ErrorIcon />}
+                  {msg}
+                </ErrorMessageField>
+              )}
+            </ErrorMessage>
+          </Label>
+          <Label>
+            <LabelName>Number</LabelName>
+            <InputField name="number">
+              {({ field }) => (
+                <InputMaskField
+                  {...field}
+                  mask={mask}
+                  placeholder="(012)-345-6789"
+                  type="tel"
+                />
+              )}
+            </InputField>
+
+            <ErrorMessage name="number" component="div">
+              {msg => (
+                <ErrorMessageField>
+                  {<ErrorIcon />}
+                  {msg}
+                </ErrorMessageField>
+              )}
+            </ErrorMessage>
+          </Label>
+          <SubmitBtn type="submit">
+            <MdOutlineContactPhone />
+            Add contact
+          </SubmitBtn>
+        </PbForm>
+      </Formik>
+      <Notification />
+    </>
+  );
+};
+
 ContactForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  contactsArr: PropTypes.array.isRequired,
 };

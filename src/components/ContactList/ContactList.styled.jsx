@@ -6,15 +6,19 @@ export const ContactItem = styled.li`
   align-items: center;
   justify-content: space-between;
   height: 32px;
-  min-width: 60px;
+  min-width: 45%;
   text-align: center;
   padding: ${p => p.theme.space[2]}px;
   border-radius: ${p => p.theme.radii.normal};
   box-shadow: ${p => p.theme.shadows.items};
-  background-color: #face7f;
+  /* background-color: #face7f; */
+  background-color: #e5f36980;
   &:nth-of-type(2n + 1) {
-    background-color: #e5f369;
+    @media screen and (max-width: 767px) {
+      background-color: #face7fad;
+    }
   }
+
   &:not(:last-child) {
     margin-bottom: ${p => p.theme.space[2]}px;
   }

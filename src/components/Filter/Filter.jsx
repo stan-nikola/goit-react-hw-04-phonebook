@@ -1,4 +1,4 @@
-import { LabelName } from 'components/ContactForm/ContactFormFormik.styled';
+import { LabelName } from 'components/ContactForm/ContactForm.styled';
 import PropTypes from 'prop-types';
 import { FilterLabel, InputFilterField } from './Filter.styled';
 export const Filter = ({ value, onChange }) => {
