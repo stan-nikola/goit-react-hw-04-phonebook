@@ -22,7 +22,7 @@ export class App extends Component {
       this.setState({ contacts: parseContacts });
     }
   }
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_, prevState) {
     const nextContacts = this.state.contacts;
     const prevContacts = prevState.contacts;
 
