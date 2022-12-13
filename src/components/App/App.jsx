@@ -18,7 +18,6 @@ export function App() {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    console.log('localStorage.setItem');
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
