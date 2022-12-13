@@ -2,13 +2,12 @@ import PropTypes from 'prop-types';
 import { Formik, ErrorMessage } from 'formik';
 import { MdOutlineContactPhone } from 'react-icons/md';
 import { mask } from 'constants/phoneValidate';
-import { schema } from '../../constants/schema';
 import { toast } from 'react-toastify';
 import { Notification } from 'components/Notifications/Notifications';
 import { toastOptions } from 'settings/toastOptions';
 import { FiX } from 'react-icons/fi';
+import { schema } from '../../constants/schema';
 
-import 'react-toastify/dist/ReactToastify.css';
 import {
   PbForm,
   ModalTitle,
@@ -25,7 +24,6 @@ import {
 const initialValues = { name: '', number: '' };
 
 export const ContactForm = ({ onSubmit, contactsArr, onClose }) => {
-  
   const handleSubmit = ({ name, number }, { resetForm }) => {
     const nameArr = contactsArr.map(contact => contact.name.toLowerCase());
     if (nameArr.includes(name.toLowerCase())) {
