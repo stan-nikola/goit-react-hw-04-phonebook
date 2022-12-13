@@ -7,7 +7,7 @@ export const Title = styled.h1`
   text-align: center;
   margin-bottom: ${p => p.theme.space[4]}px;
 `;
-export const SupTitle = styled.h2`
+export const SubTitle = styled.h2`
   font-size: ${p => p.theme.fontSizes.l};
   text-align: center;
   margin-bottom: ${p => p.theme.space[3]}px;

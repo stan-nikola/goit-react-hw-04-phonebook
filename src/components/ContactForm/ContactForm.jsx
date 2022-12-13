@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import { Formik, ErrorMessage } from 'formik';
 import { MdOutlineContactPhone } from 'react-icons/md';
-import { mask, phoneRegExp } from 'constants/phoneValidate';
-import * as yup from 'yup';
+import { mask } from 'constants/phoneValidate';
+import { schema } from '../../constants/schema';
 import { toast } from 'react-toastify';
 import { Notification } from 'components/Notifications/Notifications';
 import { toastOptions } from 'settings/toastOptions';
@@ -22,28 +22,13 @@ import {
   CloseModalBtn,
 } from './ContactForm.styled';
 
-const schema = yup.object({
-  name: yup
-    .string()
-    .min(4, 'Name must be at least 4 letters long')
-    .max(16, 'Name must be not longer than 16 letters')
-    .required(
-      "Please enter name. For example Adrian, Jacob Mercer, Charles de Batz, Castelmore d'Artagnan"
-    ),
-  number: yup
-    .string()
-    .required('Please enter phone number')
-    .matches(phoneRegExp, 'Phone number is not valid'),
-});
-
 const initialValues = { name: '', number: '' };
 
 export const ContactForm = ({ onSubmit, contactsArr, onClose }) => {
+  
   const handleSubmit = ({ name, number }, { resetForm }) => {
-    const nameArr = contactsArr.map(contact =>
-      contact.name.toLocaleLowerCase()
-    );
-    if (nameArr.includes(name.toLocaleLowerCase())) {
+    const nameArr = contactsArr.map(contact => contact.name.toLowerCase());
+    if (nameArr.includes(name.toLowerCase())) {
       return toast.warn(`${name} is already in contacts.`, toastOptions);
     }
     onSubmit(name, number);

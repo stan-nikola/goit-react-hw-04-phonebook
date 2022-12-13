@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { BsFillXCircleFill } from 'react-icons/bs';
 import { ContactItem, ContactBtn, ContactName } from './ContactList.styled';
 import { Box } from './../Box/Box';
+
 export const ContactList = ({ contacts, onDeleteContact }) => {
   return (
     <Box
@@ -29,6 +30,7 @@ export const ContactList = ({ contacts, onDeleteContact }) => {
     </Box>
   );
 };
+
 ContactList.propTypes = {
   contacts: PropTypes.arrayOf(
     PropTypes.shape({
